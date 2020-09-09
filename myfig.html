@@ -1,0 +1,43 @@
+
+
+<style>
+
+</style>
+
+<div id="fig_el1602481598262246784605795"></div>
+<script>
+function mpld3_load_lib(url, callback){
+  var s = document.createElement('script');
+  s.src = url;
+  s.async = true;
+  s.onreadystatechange = s.onload = callback;
+  s.onerror = function(){console.warn("failed to load library " + url);};
+  document.getElementsByTagName("head")[0].appendChild(s);
+}
+
+if(typeof(mpld3) !== "undefined" && mpld3._mpld3IsLoaded){
+   // already loaded: just create the figure
+   !function(mpld3){
+       
+       mpld3.draw_figure("fig_el1602481598262246784605795", {"width": 700.0, "height": 200.0, "axes": [{"bbox": [0.125, 0.10999999999999999, 0.775, 0.77], "xlim": [-1.1500000000000001, 24.15], "ylim": [1455.5995, 1661.7505], "xdomain": [-1.1500000000000001, 24.15], "ydomain": [1455.5995, 1661.7505], "xscale": "linear", "yscale": "linear", "axes": [{"position": "bottom", "nticks": 7, "tickvalues": null, "tickformat_formatter": "", "tickformat": null, "scale": "linear", "fontsize": 10.0, "grid": {"gridOn": false}, "visible": true}, {"position": "left", "nticks": 6, "tickvalues": null, "tickformat_formatter": "", "tickformat": null, "scale": "linear", "fontsize": 10.0, "grid": {"gridOn": false}, "visible": true}], "axesbg": "#FFFFFF", "axesbgalpha": null, "zoomable": true, "id": "el160248160468632", "lines": [{"data": "data01", "xindex": 0, "yindex": 1, "coordinates": "data", "id": "el160248166236752", "color": "#1F77B4", "linewidth": 1.5, "dasharray": "none", "alpha": 1, "zorder": 2, "drawstyle": "default"}], "paths": [], "markers": [], "texts": [], "collections": [], "images": [], "sharex": [], "sharey": []}], "data": {"data01": [[0.0, 1500.34], [1.0, 1522.02], [2.0, 1531.45], [3.0, 1482.96], [4.0, 1474.45], [5.0, 1464.97], [6.0, 1473.61], [7.0, 1500.1], [8.0, 1494.49], [9.0, 1496.1], [10.0, 1480.3199], [11.0, 1506.62], [12.0, 1518.45], [13.0, 1507.73], [14.0, 1517.98], [15.0, 1558.6], [16.0, 1547.53], [17.0, 1581.75], [18.0, 1580.42], [19.0, 1588.2], [20.0, 1608.22], [21.0, 1652.38], [22.0, 1634.33], [23.0, 1644.41]]}, "id": "el160248159826224", "plugins": [{"type": "reset"}, {"type": "zoom", "button": true, "enabled": false}, {"type": "boxzoom", "button": true, "enabled": false}]});
+   }(mpld3);
+}else if(typeof define === "function" && define.amd){
+   // require.js is available: use it to load d3/mpld3
+   require.config({paths: {d3: "https://d3js.org/d3.v5"}});
+   require(["d3"], function(d3){
+      window.d3 = d3;
+      mpld3_load_lib("https://mpld3.github.io/js/mpld3.v0.5.1.js", function(){
+         
+         mpld3.draw_figure("fig_el1602481598262246784605795", {"width": 700.0, "height": 200.0, "axes": [{"bbox": [0.125, 0.10999999999999999, 0.775, 0.77], "xlim": [-1.1500000000000001, 24.15], "ylim": [1455.5995, 1661.7505], "xdomain": [-1.1500000000000001, 24.15], "ydomain": [1455.5995, 1661.7505], "xscale": "linear", "yscale": "linear", "axes": [{"position": "bottom", "nticks": 7, "tickvalues": null, "tickformat_formatter": "", "tickformat": null, "scale": "linear", "fontsize": 10.0, "grid": {"gridOn": false}, "visible": true}, {"position": "left", "nticks": 6, "tickvalues": null, "tickformat_formatter": "", "tickformat": null, "scale": "linear", "fontsize": 10.0, "grid": {"gridOn": false}, "visible": true}], "axesbg": "#FFFFFF", "axesbgalpha": null, "zoomable": true, "id": "el160248160468632", "lines": [{"data": "data01", "xindex": 0, "yindex": 1, "coordinates": "data", "id": "el160248166236752", "color": "#1F77B4", "linewidth": 1.5, "dasharray": "none", "alpha": 1, "zorder": 2, "drawstyle": "default"}], "paths": [], "markers": [], "texts": [], "collections": [], "images": [], "sharex": [], "sharey": []}], "data": {"data01": [[0.0, 1500.34], [1.0, 1522.02], [2.0, 1531.45], [3.0, 1482.96], [4.0, 1474.45], [5.0, 1464.97], [6.0, 1473.61], [7.0, 1500.1], [8.0, 1494.49], [9.0, 1496.1], [10.0, 1480.3199], [11.0, 1506.62], [12.0, 1518.45], [13.0, 1507.73], [14.0, 1517.98], [15.0, 1558.6], [16.0, 1547.53], [17.0, 1581.75], [18.0, 1580.42], [19.0, 1588.2], [20.0, 1608.22], [21.0, 1652.38], [22.0, 1634.33], [23.0, 1644.41]]}, "id": "el160248159826224", "plugins": [{"type": "reset"}, {"type": "zoom", "button": true, "enabled": false}, {"type": "boxzoom", "button": true, "enabled": false}]});
+      });
+    });
+}else{
+    // require.js not available: dynamically load d3 & mpld3
+    mpld3_load_lib("https://d3js.org/d3.v5.js", function(){
+         mpld3_load_lib("https://mpld3.github.io/js/mpld3.v0.5.1.js", function(){
+                 
+                 mpld3.draw_figure("fig_el1602481598262246784605795", {"width": 700.0, "height": 200.0, "axes": [{"bbox": [0.125, 0.10999999999999999, 0.775, 0.77], "xlim": [-1.1500000000000001, 24.15], "ylim": [1455.5995, 1661.7505], "xdomain": [-1.1500000000000001, 24.15], "ydomain": [1455.5995, 1661.7505], "xscale": "linear", "yscale": "linear", "axes": [{"position": "bottom", "nticks": 7, "tickvalues": null, "tickformat_formatter": "", "tickformat": null, "scale": "linear", "fontsize": 10.0, "grid": {"gridOn": false}, "visible": true}, {"position": "left", "nticks": 6, "tickvalues": null, "tickformat_formatter": "", "tickformat": null, "scale": "linear", "fontsize": 10.0, "grid": {"gridOn": false}, "visible": true}], "axesbg": "#FFFFFF", "axesbgalpha": null, "zoomable": true, "id": "el160248160468632", "lines": [{"data": "data01", "xindex": 0, "yindex": 1, "coordinates": "data", "id": "el160248166236752", "color": "#1F77B4", "linewidth": 1.5, "dasharray": "none", "alpha": 1, "zorder": 2, "drawstyle": "default"}], "paths": [], "markers": [], "texts": [], "collections": [], "images": [], "sharex": [], "sharey": []}], "data": {"data01": [[0.0, 1500.34], [1.0, 1522.02], [2.0, 1531.45], [3.0, 1482.96], [4.0, 1474.45], [5.0, 1464.97], [6.0, 1473.61], [7.0, 1500.1], [8.0, 1494.49], [9.0, 1496.1], [10.0, 1480.3199], [11.0, 1506.62], [12.0, 1518.45], [13.0, 1507.73], [14.0, 1517.98], [15.0, 1558.6], [16.0, 1547.53], [17.0, 1581.75], [18.0, 1580.42], [19.0, 1588.2], [20.0, 1608.22], [21.0, 1652.38], [22.0, 1634.33], [23.0, 1644.41]]}, "id": "el160248159826224", "plugins": [{"type": "reset"}, {"type": "zoom", "button": true, "enabled": false}, {"type": "boxzoom", "button": true, "enabled": false}]});
+            })
+         });
+}
+</script>
