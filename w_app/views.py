@@ -8,8 +8,10 @@ import finnhub
 import time
 import logging
 import mpld3
-from datetime import datetime as dtm
-from datetime import date, timedelta
+from datetime import datetime as dt
+from datetime import date as de
+from datetime import timedelta as td
+import datetime
 import os
 from .settings import *
 import requests
@@ -27,7 +29,18 @@ def getNews(symbol):
     link = [a.get('url') for a in news]
     image = [a.get('image') for a in news]
     newz = list(zip(headline, link, image))
+
     return newz
+
+def time_converter(dttime):
+    splitted = dttime.split('-')
+    year = int(splitted[0])
+    month = int(splitted[1])
+    day = int(splitted[2])
+    d = datetime.date(year,month,day)
+    unixtime = time.mktime(d.timetuple())
+    logging.info('Converted {} into unixtime of {}'.format(dttime, unixtime))
+    return str(int(unixtime))
 
 def Home(req):
     newz = getNews('AAPL')
@@ -54,26 +67,14 @@ def Count(req):
 
 def DispayChart(req):
 
-    def time_converter(dttime):
-        splitted = dttime.split('-')
-        year = int(splitted[0])
-        month = int(splitted[1])
-        day = int(splitted[2])
-        d = dtm.date(year,month,day)
-        unixtime = time.mktime(d.timetuple())
-        logging.info('Converted {} into unixtime of {}'.format(dttime, unixtime))
-        return unixtime
-
-
-
-    start =  str(int(time_converter(req.GET['startdate'])))
-    end = str(int(time_converter(req.GET['enddate'])))
+    start = time_converter(req.GET['startdate'])
+    end = time_converter(req.GET['enddate'])
     stock = str(req.GET['stock'])
     res = finnhub_client.stock_candles(stock, 'D', start, end)
     dt = pd.DataFrame(res)
 
     dt['time'] = dt['t'].astype(int)
-    timeStamp = [dtm.fromtimestamp(a) for a in dt['time']]
+    timeStamp = [datetime.fromtimestamp(a) for a in dt['time']]
     fig = go.Figure(data=[
                 go.Candlestick(x=timeStamp,
                 open=dt['o'],
