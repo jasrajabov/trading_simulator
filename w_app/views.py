@@ -8,9 +8,8 @@ import finnhub
 import time
 import logging
 import mpld3
-from datetime import datetime as dt
+from datetime import datetime as dt, timedelta
 from datetime import date as de
-from datetime import timedelta as td
 import datetime
 import os
 from .settings import *
@@ -20,7 +19,7 @@ import json
 finnhub_client = finnhub.Client(api_key=api_key)
 
 def getNews(symbol):
-    today = date.today()
+    today = de.today()
     lastweek = today-timedelta(days=7)
     r = requests.get('https://finnhub.io/api/v1/company-news?symbol={}&from={}&to={}&token={}'.format(symbol, lastweek, today, api_key))
 
@@ -90,3 +89,18 @@ def DispayChart(req):
         pass
     fig.write_html('templates/myfig.html')
     return render(req,'myfig.html')
+
+def getOrderDetails(req):
+    #http://localhost:8000/blotter/?name=&_TraderId=123&_Side=Buy&_OrderType=Market&_Quantity=1&_Price=1
+    traderid = req.GET['_TraderId']
+    side = req.GET['_Side']
+    ordertype = req.GET['_OrderType']
+    qty = req.GET['_Quantity']
+    price = req.GET['_Price']
+
+    return render(req, 'order.html', {'tradeid': traderid,
+                                     'side':side,
+                                     'ordertype':ordertype,
+                                     'qty':qty,
+                                     'price':price
+                                                        })

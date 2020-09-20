@@ -56,22 +56,43 @@
           <br>
           <br>
         </h4>
-        <ul class="list-group mb-3">
-          <li class="list-group-item d-flex justify-content-between lh-condensed">
-            <div>
-              <h6 class="my-0">Place for FIX Message Display</h6>
-              <!-- <small class="text-muted">{{req}}</small> -->
-              <small class="text-muted">{{e}}</small>
-              <br>
-              <small class="text-muted">{{s}}</small>
-              <br>
-              <small class="text-muted">{{stock}}</small>
-              <br>
-              <small class="text-muted">{{res}}</small>
-            </div>
-
-          </li>
-        </ul>
+      <table class="table table-hover table-dark">
+        <thead>
+          <tr>
+            <th scope="col">Side</th>
+            <th scope="col">Qty</th>
+            <th scope="col">Order Type</th>
+            <th scope="col">Price</th>
+          </tr>
+          <tr>
+            <td>{{side}}</td>
+            <td>{{ordertype}}</td>
+            <td>{{qty}}</td>
+            <td>{{price}}</td>
+          </tr>
+        </thead>
+      </table>
+        <table class="table table-hover table-dark">
+          <h4>Order history</h4>
+          <thead>
+            <tr>
+              <th scope="col">Open</th>
+              <th scope="col">High</th>
+              <th scope="col">Low</th>
+              <th scope="col">Close</th>
+              <th scope="col">Previous Closes</th>
+              <th scope="col">Previous Closes</th>
+            </tr>
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+          </thead>
+        </table>
 
 
     <footer class="my-5 pt-5 text-muted text-center text-small">
