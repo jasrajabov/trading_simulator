@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="en">
 <head>
@@ -42,59 +41,45 @@
 <body class="bg-light">
   <div class="container">
     <div class="py-5 text-center">
-      <h2>Stock booking app</h2>
-      <p class="lead">Mini Web based stock booking simulator</p>
+      <h2>Stock Booking App</h2>
+      <p class="lead">Web based Stock Booking Simulator</p>
+
     </div>
+    <button type="button" class="btn btn-primary">Primary</button>
+    <button type="button" class="btn btn-secondary">Secondary</button>
+    <button type="button" class="btn btn-success">Success</button>
+    <button type="button" class="btn btn-danger">Danger</button>
+    <button type="button" class="btn btn-warning">Warning</button>
+    <button type="button" class="btn btn-info">Info</button>
+    <br>
+    <br>
+    <br>
     <div class="row">
       <div class="col-md-4 order-md-2 mb-4">
         <h5 class="d-flex justify-content-between align-items-center mb-3">
-          Company News: {{symbol}}
+          Company News: AAPL
         </h5>
         <ul class="list-group mb-2">
           {% for headline,link,image in newz %}
           <li class="list-group-item d-flex justify-content-between lh-condensed">
-
-              <a href={{link}} class="linkz">{{headline}}</a>
-
-              <!-- <img src="{{image}}" alt="" width="100" height="100"> -->
+            <a href={{link}} class="linkz">{{headline}}</a>
+            <!-- <img src="{{image}}" alt="" width="100" height="100"> -->
           </li>
           {% endfor %}
         </ul>
-
       </div>
-      <div class="col-md-8 mb-3">
-        <form action="{% url 'home' %}">
+      <div class="col-md-6 mb-3">
+        <form action="{% url 'quote' %}">
           <label>Enter a symbol or a Company name<span class="text-muted"></span></label>
-          <input class="form-control" id="stocksymbol" placeholder="e.g. AAPL">
+          <input class="form-control" id="stocksymbol" placeholder="e.g. AAPL" name='symbol'>
           <br>
-
           <button class="btn btn-success" type="submit">Get quote</button>
-          <button class="btn btn-success" formaction="{% url 'quote' %}" type="submit">Stock Data</button>
-          <br>
-          <br>
-          <h5>Displaying data for {{symbol}}</h5>
-          <br>
-          <table class="table table-bordered">
-            <thead>
-              <tr class="table-success">
-                <th scope="col">Open</th>
-                <th scope="col">High</th>
-                <th scope="col">Low</th>
-                <th scope="col">Close</th>
-                <th scope="col">Previous Closes</th>
-              </tr>
-              <tr>
-                <td>{{open}}</td>
-                <td>{{high}}</td>
-                <td>{{low}}</td>
-                <td>{{close}}</td>
-                <td>{{pc}}</td>
-              </tr>
-            </thead>
-          </table>
-
+          <ul class="list-group mb-2">
+            <div w3-include-html="myfig.html"></div>
+          </ul>
         </form>
       </div>
+
       <!-- TradingView Widget BEGIN -->
       <div class="tradingview-widget-container">
         <div id="tradingview_55242"></div>
@@ -125,7 +110,6 @@
         </script>
       </div>
       <!-- TradingView Widget END -->
-
     </div>
 
     <div class="row">
@@ -136,7 +120,7 @@
         </h4>
         <ul class="list-group mb-3">
           <li class="list-group-item d-flex justify-content-between lh-condensed">
-            <form>
+            <form action="{% url 'chart' %}" >
               <h6 class="my-0">Dispay Chart</h6>
               <small class="text-muted">Start date</small>
               <br>
@@ -155,9 +139,12 @@
               <br>
               <button class="btn btn-success" type="submit">Display</button>
             </form>
+
           </li>
         </ul>
+
       </div>
+
       <br>
       <br>
       <div class="col-md-8 order-md-1">
@@ -180,7 +167,6 @@
                 <span class="input-group-text">#</span>
               </div>
               <input type="text" class="form-control" id="username" placeholder="Username" name="_TraderId" required>
-
             </div>
           </div>
           <div class="mb-3">
@@ -224,7 +210,24 @@
         </form>
       </div>
     </div>
-
+    <br>
+    <p class="text-success">Order has been executed</p>
+    <table class="table table-hover table-dark">
+      <thead>
+        <tr>
+          <th scope="col">Side</th>
+          <th scope="col">Qty</th>
+          <th scope="col">Order Type</th>
+          <th scope="col">Price</th>
+        </tr>
+        <tr>
+          <td>{{side}}</td>
+          <td>{{ordertype}}</td>
+          <td>{{qty}}</td>
+          <td>{{price}}</td>
+        </tr>
+      </thead>
+    </table>
     <footer class="my-5 pt-5 text-muted text-center text-small">
       <p class="mb-1">&copy; 2017-2020 Company Name</p>
       <ul class="list-inline">

@@ -15,6 +15,9 @@ import os
 from .settings import *
 import requests
 import json
+from . import fix_engine
+import ipdb
+from .models import TradeData
 
 finnhub_client = finnhub.Client(api_key=api_key)
 
@@ -48,6 +51,7 @@ def Home(req):
 def Quote(req):
 
     stock = req.GET['symbol']
+    # ipdb.set_trace()
     newz = getNews(stock)
     r = requests.get('https://finnhub.io/api/v1/quote?symbol={}&token={}'.format(stock,api_key))
     quote = r.json()
@@ -97,10 +101,18 @@ def getOrderDetails(req):
     ordertype = req.GET['_OrderType']
     qty = req.GET['_Quantity']
     price = req.GET['_Price']
-
-    return render(req, 'order.html', {'tradeid': traderid,
+    fix_message = fix_engine.createNewOrderSinge('FB', side, ordertype, qty)
+    trade_data = TradeData(fix=fix_message,
+                            symbol='FB',
+                            quantity=qty,
+                            order_type=ordertype,
+                            direction=side,
+                            exec_date=datetime.datetime.now())
+    trade_data.save()
+    return render(req, 'execute.html', {'tradeid': traderid,
                                      'side':side,
                                      'ordertype':ordertype,
                                      'qty':qty,
-                                     'price':price
+                                     'price':price,
+                                     'fix_message':fix_message
                                                         })
