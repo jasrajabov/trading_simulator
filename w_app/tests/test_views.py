@@ -2,8 +2,12 @@ from django.test import TestCase
 from ..views import *
 from django.urls import reverse
 import ipdb
+from django.test import Client
 
 class ViewsTestCases(TestCase):
+
+    def setUp(self):
+        self._client = Client()
 
     def test_home_page(self):
         """Test homepage is successful"""
@@ -16,9 +20,9 @@ class ViewsTestCases(TestCase):
         """Testing order page"""
         url = 'http://localhost:8000/execute/?name=&_TraderId=444&_Side=Buy&_OrderType=Limit&_Quantity=1&_Price=1'
         resp = self.client.get(url)
-
+        # ipdb.set_trace()
         self.assertEqual(resp.status_code, 200)
-
+#
     def test_get_quote_page(self):
         """Testing get quote page"""
         url = 'http://localhost:8000/quote/?symbol=GOOG'

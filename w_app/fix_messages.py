@@ -51,10 +51,4 @@ def createNewOrderSinge(symbol, side, ordertype, qty):
     header = create_fix_header(order)
     new_order = create_body(header,symbol,side, ordertype, qty)
     new_order_encoded = new_order.encode(new_order)
-    # import ipdb; ipdb.set_trace()
-    # print(new_order_encoded)
     return new_order
-
-
-test = createNewOrderSinge("FB", 'Buy', "Market", 999)
-print(test)

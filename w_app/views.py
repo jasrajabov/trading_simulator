@@ -1,9 +1,5 @@
 from django.http import HttpResponse as hr
 from django.shortcuts import render
-import pandas as pd
-import matplotlib.pyplot as plt
-import plotly.graph_objects as go
-from matplotlib.pyplot import figure
 import finnhub
 import time
 import logging
@@ -15,7 +11,7 @@ import os
 from .settings import *
 import requests
 import json
-from . import fix_engine
+from . import fix_messages, fix_mapping
 import ipdb
 from .models import TradeData
 
@@ -63,8 +59,6 @@ def Quote(req):
     return render(req,'quote.html', {'open':open, 'close':close, 'high':high, 'low':low, 'pc':pc, 'newz':newz, 'symbol':stock})
     # NEED TO ADD TIME TOO
 
-
-
 def Count(req):
     pass
 
@@ -101,7 +95,9 @@ def getOrderDetails(req):
     ordertype = req.GET['_OrderType']
     qty = req.GET['_Quantity']
     price = req.GET['_Price']
-    fix_message = fix_engine.createNewOrderSinge('FB', side, ordertype, qty)
+    ordertype = fix_mapping.OrderType.get(ordertype)
+    side = fix_mapping.Side.get(side)
+    fix_message = fix_messages.createNewOrderSinge('FB', side, ordertype, qty)
     trade_data = TradeData(fix=fix_message,
                             symbol='FB',
                             quantity=qty,
