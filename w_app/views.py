@@ -1,4 +1,6 @@
-from django.http import HttpResponse as hr
+from django.http import HttpResponse, JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework.parsers import JSONParser
 from django.shortcuts import render
 import finnhub
 import time
@@ -13,7 +15,8 @@ import requests
 import json
 from . import fix_messages, fix_mapping
 import ipdb
-from .models import TradeData
+from w_app.models import TradeData
+from w_app.serializers import TradeDataSerializer
 
 finnhub_client = finnhub.Client(api_key=api_key)
 
@@ -112,3 +115,47 @@ def getOrderDetails(req):
                                      'price':price,
                                      'fix_message':fix_message
                                                         })
+
+@csrf_exempt
+def trade_list(req):
+    """
+    List all code snippets, or create a new snippet.
+    """
+    if req.method == 'GET':
+        snippets = TradeData.objects.all()
+        serializer = TradeDataSerializer(snippets, many=True)
+        return JsonResponse(serializer.data, safe=False)
+
+    elif req.method == 'POST':
+        data = JSONParser().parse(req)
+        serializer = TradeDataSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data, status=201)
+        return JsonResponse(serializer.errors, status=400)
+
+@csrf_exempt
+def trade_detail(request, pk):
+    """
+    Retrieve, update or delete a code snippet.
+    """
+    try:
+        snippet = TradeData.objects.get(pk=pk)
+    except TradeData.DoesNotExist:
+        return HttpResponse(status=404)
+
+    if request.method == 'GET':
+        serializer = TradeDataSerializer(snippet)
+        return JsonResponse(serializer.data)
+
+    elif request.method == 'PUT':
+        data = JSONParser().parse(request)
+        serializer = TradeDataSerializer(snippet, data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data)
+        return JsonResponse(serializer.errors, status=400)
+
+    elif request.method == 'DELETE':
+        snippet.delete()
+        return HttpResponse(status=204)
