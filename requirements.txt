@@ -44,3 +44,4 @@ wcwidth==0.2.5
 websocket==0.2.1
 zope.event==4.4
 zope.interface==5.1.0
+djangorestframework
