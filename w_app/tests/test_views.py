@@ -3,6 +3,7 @@ from ..views import *
 from django.urls import reverse
 import ipdb
 from django.test import Client
+from rest_framework.test import APIClient
 
 class ViewsTestCases(TestCase):
 

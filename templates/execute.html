@@ -120,7 +120,7 @@
         </h4>
         <ul class="list-group mb-3">
           <li class="list-group-item d-flex justify-content-between lh-condensed">
-            <form action="{% url 'chart' %}" >
+            <form action="" >
               <h6 class="my-0">Dispay Chart</h6>
               <small class="text-muted">Start date</small>
               <br>
@@ -149,7 +149,7 @@
       <br>
       <div class="col-md-8 order-md-1">
         <h4 class="mb-3">Trader Details</h4>
-        <form class="needs-validation" action="{% url 'execute' %}">
+        <form class="needs-validation" action="{% url 'trades' %}">
           <div class="row">
             <div class="col-md-6 mb-3">
               <label for="firstName">First name</label>
@@ -166,7 +166,7 @@
               <div class="input-group-prepend">
                 <span class="input-group-text">#</span>
               </div>
-              <input type="text" class="form-control" id="username" placeholder="Username" name="_TraderId" required>
+              <input type="text" class="form-control" id="username" placeholder="Username" name="tradeid" required>
             </div>
           </div>
           <div class="mb-3">
@@ -178,14 +178,14 @@
           <div class="row">
             <div class="col-md-5 mb-3">
               <label for="country">Side</label>
-              <select class="custom-select d-block w-100" id="country" required name="_Side">
+              <select class="custom-select d-block w-100" id="country" required name="side">
                 <option value="">Choose...</option>
                 <option>Buy</option>
                 <option>Sell</option>
               </select>
               <br>
               <label for="country">Order Type</label>
-              <select class="custom-select d-block w-100" id="country" name="_OrderType" required>
+              <select class="custom-select d-block w-100" id="country" name="ordertype" required>
                 <option value="">Choose...</option>
                 <option>Limit</option>
                 <option>Market</option>
@@ -194,7 +194,7 @@
             </div>
             <div class="col-md-4 mb-3">
               <label for="state">Quantity</label>
-              <select class="custom-select d-block w-100" id="state" name="_Quantity"required>
+              <select class="custom-select d-block w-100" id="state" name="qty"required>
                 <option value="">Choose...</option>
                 <option>1</option>
                 <option>10</option>
@@ -203,7 +203,7 @@
             </div>
             <div class="col-md-3 mb-3">
               <label for="zip">Price</label>
-              <input type="text" class="form-control" id="zip" placeholder="" name="_Price" required>
+              <input type="text" class="form-control" id="zip" placeholder="" name="price" required>
             </div>
           </div>
           <button class="btn btn-primary btn-lg btn-block" type="submit">Book</button>

@@ -7,5 +7,6 @@ class TradeDataSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = TradeData
-        fields = ['id', 'fix', 'symbol', 'quantity', 'order_type', 'direction',
+        fields = ['id', 'fix', 'symbol', 'price',
+         'quantity', 'order_type', 'direction',
             'exec_date']

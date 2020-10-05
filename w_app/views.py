@@ -1,6 +1,9 @@
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 from rest_framework.parsers import JSONParser
+from rest_framework import status
 from django.shortcuts import render
 import finnhub
 import time
@@ -65,34 +68,9 @@ def Quote(req):
 def Count(req):
     pass
 
-def DispayChart(req):
-
-    start = time_converter(req.GET['startdate'])
-    end = time_converter(req.GET['enddate'])
-    stock = str(req.GET['stock'])
-    res = finnhub_client.stock_candles(stock, 'D', start, end)
-    dt = pd.DataFrame(res)
-
-    dt['time'] = dt['t'].astype(int)
-    timeStamp = [datetime.fromtimestamp(a) for a in dt['time']]
-    fig = go.Figure(data=[
-                go.Candlestick(x=timeStamp,
-                open=dt['o'],
-                high=dt['h'],
-                low=dt['l'],
-                close=dt['c'],
-                )])
-    fig.update_layout(title_text="{}: {}-{}".format(stock, timeStamp[0], timeStamp[-1]),
-                  title_font_size=30)
-    try:
-        os.remove('templates/myfig.html')
-    except:
-        pass
-    fig.write_html('templates/myfig.html')
-    return render(req,'myfig.html')
-
+@csrf_exempt
 def getOrderDetails(req):
-    #http://localhost:8000/blotter/?name=&_TraderId=123&_Side=Buy&_OrderType=Market&_Quantity=1&_Price=1
+
     traderid = req.GET['_TraderId']
     side = req.GET['_Side']
     ordertype = req.GET['_OrderType']
@@ -107,7 +85,8 @@ def getOrderDetails(req):
                             order_type=ordertype,
                             direction=side,
                             exec_date=datetime.datetime.now())
-    trade_data.save()
+    print(req.body)
+    # trade_data.save()
     return render(req, 'execute.html', {'tradeid': traderid,
                                      'side':side,
                                      'ordertype':ordertype,
@@ -117,45 +96,56 @@ def getOrderDetails(req):
                                                         })
 
 @csrf_exempt
-def trade_list(req):
+@api_view(['GET', 'POST'])
+def trade_list(req, format=None):
     """
-    List all code snippets, or create a new snippet.
+    List all code trades, or create a new trade.
     """
     if req.method == 'GET':
         snippets = TradeData.objects.all()
         serializer = TradeDataSerializer(snippets, many=True)
-        return JsonResponse(serializer.data, safe=False)
+        return Response(serializer.data, status=200)
 
     elif req.method == 'POST':
-        data = JSONParser().parse(req)
-        serializer = TradeDataSerializer(data=data)
+        post_data = req.POST.dict()
+        # ipdb.set_trace()
+        """FIX IT LATER"""
+        fix_message = fix_messages.createNewOrderSinge(
+                req.POST['symbol'],
+                req.POST['direction'],
+                req.POST['order_type'],
+                req.POST['quantity'])
+        message = {'fix': fix_message.__str__(), 'exec_date': datetime.datetime.now()}
+        post_data.update(message)
+        # ipdb.set_trace()
+        serializer = TradeDataSerializer(data=post_data)
         if serializer.is_valid():
             serializer.save()
-            return JsonResponse(serializer.data, status=201)
-        return JsonResponse(serializer.errors, status=400)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @csrf_exempt
-def trade_detail(request, pk):
+def trade_detail(request, pk, format=None):
     """
     Retrieve, update or delete a code snippet.
     """
     try:
         snippet = TradeData.objects.get(pk=pk)
     except TradeData.DoesNotExist:
-        return HttpResponse(status=404)
+        return Response(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'GET':
         serializer = TradeDataSerializer(snippet)
-        return JsonResponse(serializer.data)
+        return Response(serializer.data)
 
     elif request.method == 'PUT':
         data = JSONParser().parse(request)
         serializer = TradeDataSerializer(snippet, data=data)
         if serializer.is_valid():
             serializer.save()
-            return JsonResponse(serializer.data)
-        return JsonResponse(serializer.errors, status=400)
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     elif request.method == 'DELETE':
         snippet.delete()
-        return HttpResponse(status=204)
+        return Response(status=status.HTTP_204_NO_CONTENT)

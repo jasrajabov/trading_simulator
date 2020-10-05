@@ -160,46 +160,26 @@
       </div>
       <br>
       <br>
-      <div class="col-md-8 order-md-1">
+      <div class="col-md-5 mb-3">
         <h4 class="mb-3">Trader Details</h4>
-        <form class="needs-validation" action="{% url 'execute' %}">
-          <div class="row">
-            <div class="col-md-6 mb-3">
-              <label for="firstName">First name</label>
-              <input type="text" name="name" class="form-control" id="firstName" placeholder="" value="">
-            </div>
-            <div class="col-md-6 mb-3">
-              <label for="lastName">Last name</label>
-              <input type="text" class="form-control" id="lastName" placeholder="" value="">
-            </div>
-          </div>
-          <div class="mb-3">
-            <label for="username">Trader ID</label>
-            <div class="input-group">
-              <div class="input-group-prepend">
-                <span class="input-group-text">#</span>
-              </div>
-              <input type="text" class="form-control" id="username" placeholder="Username" name="_TraderId" required>
-
-            </div>
-          </div>
-          <div class="mb-3">
-            <label for="email">Email <span class="text-muted">(Optional)</span></label>
-            <input type="email" class="form-control" id="email" placeholder="you@example.com">
+        <form class="needs-validation" action="{% url 'trades' %}" method="post">
+          <div class="col-md-5 mb-3">
+            <label for="email">Symbol <span class="text-muted">e.g. AAPL</span></label>
+            <input class="form-control" id="email" placeholder="you@example.com" name='symbol' required>
           </div>
           <br>
           <h4 class="mb-3">Order Entry</h4>
           <div class="row">
             <div class="col-md-5 mb-3">
               <label for="country">Side</label>
-              <select class="custom-select d-block w-100" id="country" required name="_Side">
+              <select class="custom-select d-block w-100" id="country" required name="direction">
                 <option value="">Choose...</option>
                 <option>Buy</option>
                 <option>Sell</option>
               </select>
               <br>
               <label for="country">Order Type</label>
-              <select class="custom-select d-block w-100" id="country" name="_OrderType" required>
+              <select class="custom-select d-block w-100" id="country" name="order_type" required>
                 <option value="">Choose...</option>
                 <option>Limit</option>
                 <option>Market</option>
@@ -208,7 +188,7 @@
             </div>
             <div class="col-md-4 mb-3">
               <label for="state">Quantity</label>
-              <select class="custom-select d-block w-100" id="state" name="_Quantity"required>
+              <select class="custom-select d-block w-100" id="state" name="quantity"required>
                 <option value="">Choose...</option>
                 <option>1</option>
                 <option>10</option>
@@ -217,7 +197,7 @@
             </div>
             <div class="col-md-3 mb-3">
               <label for="zip">Price</label>
-              <input type="text" class="form-control" id="zip" placeholder="" name="_Price" required>
+              <input type="text" class="form-control" id="zip" placeholder="" name="price" required>
             </div>
           </div>
           <button class="btn btn-primary btn-lg btn-block" type="submit">Book</button>

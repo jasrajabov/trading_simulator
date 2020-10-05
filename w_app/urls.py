@@ -1,14 +1,16 @@
 from django.contrib import admin
 from django.urls import path
 from . import views
+from rest_framework.urlpatterns import format_suffix_patterns
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.Home, name='home'),
     path('execute/', views.getOrderDetails, name='execute'),
-    path('chart/', views.DispayChart, name='chart'),
     path('quote/', views.Quote, name='quote'),
-    path('snippets/', views.trade_list),
-    path('snippets/<int:pk>/', views.trade_detail)
+    path('trades/', views.trade_list, name='trades'),
+    path('trades/<int:pk>/', views.trade_detail)
 
 ]
+
+urlpatterns = format_suffix_patterns(urlpatterns)
