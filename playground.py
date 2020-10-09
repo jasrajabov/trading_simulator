@@ -25,6 +25,7 @@ finnhub_client = finnhub.Client(api_key=api_key)
 
 import requests
 r = requests.get('https://finnhub.io/api/v1/stock/symbol?exchange=US&token=bsf2pnfrh5rf0ieh0s00')
+print(r.status_code)
 # # for a in r.json()[0:11]:
 # #     print(a.get('displaySymbol'))
 # #print(r.json()[0].get('currency'))

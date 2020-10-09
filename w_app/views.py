@@ -21,6 +21,7 @@ import ipdb
 from w_app.models import TradeData
 from w_app.serializers import TradeDataSerializer
 
+
 finnhub_client = finnhub.Client(api_key=api_key)
 
 def getNews(symbol):
@@ -110,13 +111,7 @@ def trade_list(req, format=None):
         post_data = req.POST.dict()
         # ipdb.set_trace()
         """FIX IT LATER"""
-        fix_message = fix_messages.createNewOrderSinge(
-                req.POST['symbol'],
-                req.POST['direction'],
-                req.POST['order_type'],
-                req.POST['quantity'])
-        message = {'fix': fix_message.__str__(), 'exec_date': datetime.datetime.now()}
-        post_data.update(message)
+        # post_data.update(message)
         # ipdb.set_trace()
         serializer = TradeDataSerializer(data=post_data)
         if serializer.is_valid():
