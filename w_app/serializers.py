@@ -3,6 +3,7 @@ from w_app.models import TradeData
 from . import fix_messages, fix_mapping
 import ipdb
 import datetime
+from django.utils import timezone
 
 
 class TradeDataSerializer(serializers.ModelSerializer):
@@ -20,7 +21,7 @@ class TradeDataSerializer(serializers.ModelSerializer):
                 validated_data['direction'],
                 validated_data['order_type'],
                 validated_data['quantity'])
-        message = {'fix': fix_message.__str__(), 'exec_date': datetime.datetime.now()}
+        message = {'fix': fix_message.__str__(), 'exec_date': datetime.datetime.now(tz=timezone.utc)}
         validated_data.update(message)
         # ipdb.set_trace()
         return validated_data

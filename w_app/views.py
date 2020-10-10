@@ -96,15 +96,15 @@ def getOrderDetails(req):
                                      'fix_message':fix_message
                                                         })
 
-@csrf_exempt
+
 @api_view(['GET', 'POST'])
 def trade_list(req, format=None):
     """
     List all code trades, or create a new trade.
     """
     if req.method == 'GET':
-        snippets = TradeData.objects.all()
-        serializer = TradeDataSerializer(snippets, many=True)
+        trades = TradeData.objects.all()
+        serializer = TradeDataSerializer(trades, many=True)
         return Response(serializer.data, status=200)
 
     elif req.method == 'POST':
@@ -119,28 +119,28 @@ def trade_list(req, format=None):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-@csrf_exempt
-def trade_detail(request, pk, format=None):
+@api_view(['GET', 'PUT', 'DELETE'])
+def trade_detail(request, id, format=None):
     """
     Retrieve, update or delete a code snippet.
     """
     try:
-        snippet = TradeData.objects.get(pk=pk)
+        trade = TradeData.objects.get(id=id)
     except TradeData.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'GET':
-        serializer = TradeDataSerializer(snippet)
-        return Response(serializer.data)
+        serializer = TradeDataSerializer(trade)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     elif request.method == 'PUT':
         data = JSONParser().parse(request)
-        serializer = TradeDataSerializer(snippet, data=data)
+        serializer = TradeDataSerializer(trade, data=data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     elif request.method == 'DELETE':
-        snippet.delete()
+        trade.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)

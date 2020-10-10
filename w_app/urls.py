@@ -9,7 +9,7 @@ urlpatterns = [
     path('execute/', views.getOrderDetails, name='execute'),
     path('quote/', views.Quote, name='quote'),
     path('trades/', views.trade_list, name='trades'),
-    path('trades/<int:pk>/', views.trade_detail)
+    path('trades/<int:id>/', views.trade_detail, name='single_trade')
 
 ]
 

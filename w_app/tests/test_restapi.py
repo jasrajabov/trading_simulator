@@ -5,6 +5,7 @@ from w_app.models import TradeData
 import ipdb
 
 
+
 class TradeDataApiTests(APITestCase):
     """
     Rest Api tests
@@ -26,12 +27,14 @@ class TradeDataApiTests(APITestCase):
             }
         # url = 'http://localhost:8000/trades/'
         self.url = reverse('trades')
+
     def test_trade_booking(self):
         """
         Test trade is booked successfully
         """
+        # ipdb.set_trace()
         response = self.client.post(self.url, self.data1)
-
+        # ipdb.set_trace()
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(TradeData.objects.count(), 1)
         self.assertIsNotNone(TradeData.objects.get().fix)
@@ -46,4 +49,28 @@ class TradeDataApiTests(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(TradeData.objects.count(), 2)
-        self.assertEqual(TradeData.objects.filter(id=1).get().direction, 'Sell')
+        # ipdb.set_trace()
+        self.assertEqual(TradeData.objects.filter(id=response.data[0]['id']).get().direction, 'Sell')
+
+    # def test_post_single_trade(self):
+    #     """testing fetching a single trade"""
+    #     url = reverse('single_trade', kwargs={'id':'1'})
+    #     # ipdb.set_trace()
+    #     response = self.client.post(url, self.data1)
+    #     self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+    def test_get_single_trade(self):
+        """testing fetching a single trade"""
+        trade = self.client.post(self.url, self.data1)
+        url = reverse('single_trade', kwargs={'id':trade.data['id'].__str__()})
+        # ipdb.set_trace()
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_delete_single_trade(self):
+        trade = self.client.post(self.url, self.data1)
+        url = reverse('single_trade', kwargs={'id':trade.data['id'].__str__()})
+        # ipdb.set_trace()
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertEqual(TradeData.objects.count(), 0)
